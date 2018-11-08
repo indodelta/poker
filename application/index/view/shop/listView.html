@@ -1,0 +1,68 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+    <div class="userAlertContainer userAlertContainerBg">
+        <div class="shopBuyView">
+            <div class="shopBuyViewTitle">
+                <div>{if input('param.type') eq '0'}虚拟形象{else/}道具{/if}商城</div>
+                <div>
+                    金币:<span class="shopBuyMoney">9,876,000</span>
+                    游戏币:<span class="shopBuyGameMoney">9,876,000</span>
+                </div>
+            </div>
+            <!-- <div class="shopBuyContent">
+                <div class="shopBuyImg">
+                    <img src="/static/index/img/people/2.png">
+                    <div>嗯嗯嗯</div>
+                </div>
+                <div class="shopBuyForm">
+                    <ul>
+                        <li>
+                            <span>名称:</span>
+                            <input type="text">
+                        </li>
+                        <li>
+                            <span>价格:</span>
+                            <input type="text">
+                        </li>
+                        <li>
+                            <span>获得:</span>
+                            <input type="text">
+                        </li>
+                        <li>
+                            <span>赠送:</span>
+                            <input type="text">
+                        </li>
+                        <li>
+                            <span>说明:</span>
+                        </li>
+                    </ul>
+                    <div class="shopBuyBtn">
+                        <img src="/static/index/img/shopmall.png">
+                        <div>购买</div>
+                    </div>
+                    <div class="shopBuyGiveBtn">
+                        <img src="/static/index/img/give.png">
+                        <div>赠送好友</div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <!-- <div class="shopBuyList"> -->
+        <ul class="propContent propScroll shopMallItem">
+            {volist name='data' id='list'}
+            <li>
+                <div class="propImg">
+                    <img src="{$list['img']}">
+                </div>
+                <div class="shopMoney">
+                    <div class="propName">名　称:{$list['name']}</div>
+                    <div class="money">{if $list['buy_type'] eq '0'}
+                        金　币{else/}游戏币{/if}:{$list['money']}</div>
+                    <div class="gameMoney">游戏币:{$list['coin']}</div>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
+{include file="public/userFoot" /}

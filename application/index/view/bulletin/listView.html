@@ -1,0 +1,69 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+	<div class="memCenterRightContent">
+		<!--<table class="defaultTable">-->
+			<!--<thead>-->
+				<!--<tr>-->
+					<!--<th>序号</th>-->
+					<!--<th>标题</th>-->
+					<!--<th>时间</th>-->
+				<!--</tr>-->
+			<!--</thead>-->
+			<!--<tbody>-->
+				<!--<tr>-->
+					<!--<td>4</td>-->
+					<!--<td><a href="/bulletin/detail/4">今天天气真的好啊！1</a></td>-->
+					<!--<td>2018-9-27 13:13:03</td>-->
+				<!--</tr>-->
+			<!--</tbody>-->
+		<!--</table>-->
+
+
+		<!--<div class="tablePage">-->
+			<!--<div id="layui-table-page1">-->
+				<!--<div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-2"><a href="javascript:;" class="layui-laypage-prev layui-disabled"-->
+					 <!--data-page="0"><i class="layui-icon"></i></a><span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span><a-->
+					 <!--href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span class="layui-laypage-spr">…</span><a-->
+					 <!--href="javascript:;" class="layui-laypage-last" title="尾页" data-page="100">100</a><a href="javascript:;" class="layui-laypage-next"-->
+					 <!--data-page="2"><i class="layui-icon"></i></a><span class="layui-laypage-skip">到第<input type="text" min="1" value="1"-->
+						 <!--class="layui-input">页<button type="button" class="layui-laypage-btn">确定</button></span><span class="layui-laypage-count">共-->
+						<!--1000 条</span>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<table class="layui-hide" id="bulletinListTable"></table>
+	</div>
+</div>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#bulletinListTable'
+            ,height: 600
+            ,page: true //开启分页
+			,response:{
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                ,statusCode: 1 //规定成功的状态码，默认：0
+			}
+            ,limit: 12
+            ,limits: [12,24,48]
+            ,url:'/bulletin/listGet'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'LAY_INDEX', width:50, title: 'No'
+					,templet: function(d){
+                        return d.LAY_INDEX;
+                    }
+				}
+                ,{field:'type', width:80, title: '分类'}
+                ,{field:'title', title: '标题'
+					,templet: function(d){
+                        return '<a href="/bulletin/detail/'+d.id+'">'+d.title+'</a>';
+                    }
+				}
+                ,{field:'time',width:180, title: '时间'}
+            ]]
+        });
+    });
+</script>
+{include file="public/userFoot" /}

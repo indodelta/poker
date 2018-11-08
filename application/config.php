@@ -17,7 +17,7 @@ return [
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
-    'app_trace'              => true,
+    'app_trace'              => false,
     // 应用模式状态
     'app_status'             => '',
     // 是否支持多模块
@@ -145,7 +145,11 @@ return [
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
-
+//    'http_exception_template'    =>  [
+//        // 定义404错误的重定向页面地址
+//        404 =>  APP_PATH . 'index/view/public/error.html',
+//        500 =>  APP_PATH . 'index/view/public/500.html',
+//    ],
     // +----------------------------------------------------------------------
     // | 异常及错误设置
     // +----------------------------------------------------------------------
@@ -195,8 +199,13 @@ return [
 //        // 缓存有效期 0表示永久缓存
 //        'expire' => 0,
         'type'  => 'redis',
-        'host'  => '127.0.0.1',
-        'password' => '123456'
+        'host'  => '192.168.100.2',
+        'password' => '123456',
+        'select'=> 0,
+        'timeout'=> 0,
+        'expire'=> 0,
+        'persistent' => false,
+        'prefix' => '',
     ],
 
     // +----------------------------------------------------------------------
@@ -241,4 +250,8 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+    'LockKey'   => 'sxfGame',
+    'helpMoneyNum'  => 3,
+    'helpMoney'     => 3000,
+    'helpMinMoney'  => 3000
 ];

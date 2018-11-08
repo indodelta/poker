@@ -1,0 +1,19 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+	<div class="bankList">
+		{volist name='data' id='list'}
+			<div class="bankInfo">
+				<div class="bankName">{$list['bank_name']}</div>
+				<div>{$list['bank_number']}</div>
+			</div>
+		{/volist}
+		<a class="bankAdd" href="/user/bankAdd">
+			<div class="bankAdd">
+				<img src="/static/index/img/addBank.png">
+				点击添加新的银行卡
+			</div>
+		</a>
+
+	</div>
+</div>
+{include file="public/userFoot" /}

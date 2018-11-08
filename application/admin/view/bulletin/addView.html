@@ -1,0 +1,76 @@
+{include file="public/head" /}
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>公告发布</legend>
+        </fieldset>
+
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">发布类别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="type" value="公告" title="公告" checked="">
+                    <input type="radio" name="type" value="活动" title="活动">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" name="detail" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button type="button" class="layui-btn">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    })
+    $("button").click(function () {
+        var load = layer.load(1, { shade: [0.01, '#fff'] });
+        $.ajax({
+            type: "POST",//传值类型
+            url: "{:url('Admin/Bulletin/addApi')}",//路径
+            data: $("form").serialize(),
+            dataType: "json",
+            success: function (data) {
+                layer.close(load);
+                if (data.code == 1) {
+                    layer.msg("添加成功！",{time:1500},function () {
+                        location.href = "{:url('Admin/bulletin/listView')}"
+                    })
+                }
+                if(data.code ==0){
+                    layer.msg("提示:添加失败！")
+                }
+                if (data.code == 500) {
+                    layer.msg("提示:服务器错误")
+                }
+                if (data.code == 404) {
+                    layer.msg("提示:缺少参数")
+                }
+                if (data.code == -3) {
+                    layer.msg("提示:账号或密码错误")
+                }
+            },
+            error: function () {
+                layer.close(load);
+                layer.msg("提示:网络错误")
+            }
+        })
+
+    })
+</script>
+{include file="public/foot" /}

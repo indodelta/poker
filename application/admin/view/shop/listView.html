@@ -1,0 +1,172 @@
+{include file="public/head" /}
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>商品列表</legend>
+        </fieldset>
+        <div class="demoTable">
+            <form class="layui-form">
+                <div class="layui-inline">
+                    <input class="layui-input" id="name" placeholder="请输入商品名称">
+                </div>
+                <div class="layui-input-inline">
+                    <select name="type" id="selectType">
+                        <option value="">请选择商品类型</option>
+                        <option value="0">虚拟形象</option>
+                        <option value="1">游戏道具</option>
+                    </select>
+                </div>
+                <button class="layui-btn" data-type="reload" type="button" id="select">搜索</button>
+                <a href="/shop/shopUpload.html" style="float:right" class="layui-btn">商品上传</a>
+            </form>
+        </div>
+        <table class="layui-hide" id="shopTable"></table>
+    </div>
+</div>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        var tableIns =table.render({
+            elem: '#shopTable'
+            ,height: 720
+            ,defaultToolbar:[]
+            ,page: true //开启分页
+            ,response:{
+                statusName: 'code'
+                ,statusCode: 1
+            }
+            ,url:'{:url("shop/listApi")}'
+            ,cellMinWidth: 80
+            ,limit: 12
+            ,limits: [12,24,48]
+            ,cols: [[
+                {field:'LAY_INDEX', width:50, title: 'No'
+                    ,templet: function(d){
+                        return d.LAY_INDEX;
+                    }
+                }
+                ,{field:'name', title: '道具名'}
+                ,{field:'', title: '分类'
+                    ,templet: function(d){
+                        if(d.type==1){
+                            return "游戏道具";
+                        }else{
+                            return "虚拟形象";
+                        }
+                    }
+                }
+                , {field : '',title : '图片',style:'height:100px;'
+                    ,templet: function(d){
+                        return "<img width='100px' height='100px' src='"+d.img+"'/>"
+                    }
+                }
+                ,{field:'', title: '购买类别'
+                    ,templet: function(d){
+                        var buyType;
+                        if(d.buy_type==1){
+                            buyType = "金币购买";
+                        }else{
+                            buyType = "游戏币购买";
+                        }
+                        return buyType;
+                    }
+                }
+                ,{field:'', title: '价格'
+                    ,templet: function(d){
+                        var buyType;
+                        if(d.buy_type==1){
+                            buyType = "金币";
+                        }else{
+                            buyType = "游戏币";
+                        }
+                        return toThousands(d.money)+" "+buyType;
+                    }
+                }
+                ,{field:'', title: '赠送游戏币'
+                    ,templet: function(d){
+                        return toThousands(d.coin)+" ";
+                    }
+                }
+                ,{field:'', title: '状态'
+                    ,templet: function(d){
+                        if(d.status==1){
+                            return "售卖中";
+                        }else{
+                            return "已下架";
+                        }
+                    }
+                }
+                ,{field:'time',width:180, title: '时间'}
+                ,{field:'', title: '操作'
+                    ,templet: function(d){
+                        return "<button class='layui-btn layui-btn-primary layui-btn-sm'>修改</button><button class='layui-btn layui-btn-danger layui-btn-sm'>删除</button>"
+                    }
+                }
+            ]]
+        });
+        //头工具栏事件
+        table.on('toolbar(emailIndexTable)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+            var id='';
+            switch(obj.event){
+                case 'deleteCheck':
+                    var data = checkStatus.data;  //获取选中行数据
+                    for(var a=0;a<data.length;a++){
+                        id===''?id=data[a]['id']:id+=','+data[a]['id'];
+                    }
+                    emailAjax('delete','email');
+                    break;
+                case 'deleteRead' :
+                    emailAjax('delete','emailRead');
+                    break;
+                case 'allRead' :
+                    emailAjax('put','email');
+                    break;
+            };
+        });
+        $("#select").click(function () {
+            tableIns.reload({
+                where: {
+                    name:$("#name").val(),
+                    type:$("#selectType").val()
+                }
+                ,page: {
+                    curr: 1
+                }
+            });
+        });
+        function emailAjax(type,url,id = 0) {
+            var load = layer.load(1, { shade: [0.01, '#fff'] });
+            $.ajax({
+                type: type,//传值类型
+                url: url,//路径
+                data: { id:id},//要传的值，和键名
+                dataType: "json",
+                success: function (data) {
+                    layer.close(load);
+                    if(data.code === 1){
+                        $(".deleteEmail").removeClass('deleteEmail');
+                        $(".layui-laypage-btn").click();
+                        layer.msg('操作成功！')
+                    }else{
+                        layer.msg('操作失败！')
+                    }
+                },
+                error: function () {
+                    layer.close(load);
+                    layer.msg('网络错误！')
+                }
+            });
+        }
+
+    });
+    function toThousands(num) {
+        var dataval = parseInt(num);
+        return dataval.toFixed(0).replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g,'$&,');
+    }
+</script>
+name:
+{include file="public/foot" /}
+
+

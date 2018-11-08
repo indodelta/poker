@@ -1,0 +1,138 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+	<div class="userAlertContainer">
+
+		<div class="userAlertInfo">
+			<div class="userTopInfo">
+				<div class="userTopLeft">
+					<div class="userTopLeftTop">
+						<ul class="userInfo">
+							<li class="alertUserName">灰太郎大人(yu1005)
+							</li>
+							<li class="alertUserName">账户余额(游戏币)</li>
+							<li class="alertUserMoney">876,000,000,000</li>
+						</ul>
+						<div class="headPortrait">
+							<img src="/static/index/img/people/4.png">
+						</div>
+					</div>
+					<div class="userTopLeftBottom">
+						<div class="userMoneyTop">
+							<div class="userDeposit">
+								存款:9,876,543,210
+							</div>
+							<div class="userIntegral">
+								9,876,543,210积分
+							</div>
+						</div>
+						<div class="userMoneyBottom">
+							<div class="goldCoin">金币:78,900,011,290</div>
+							<div class="alertUserLv">
+								<span>Lv2:</span>
+								<div class="layui-progress">
+									<div class="layui-progress-bar layui-bg-orange" lay-percent="30%" style="width: 30%;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="userTopRight">
+					<ul class="userTopRightShopNav">
+						<li class="alertUserImg" onclick="window.location.href='/shop/list/0'">
+							<img src="/static/index/img/userImg.png">
+							<button>虚拟形象商城</button>
+						</li>
+						<li class="alertUserProp" onclick="window.location.href='/shop/list/1'">
+							<img src="/static/index/img/shopProp.png">
+							<button>道具商城</button>
+						</li>
+						<li class="alertUserRecharge" onclick="window.location.href='/wallet/cashCoupon'">
+							<img src="/static/index/img/money.png">
+							<button>金币/代金券充值</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="searchForm">
+				<!--<form class="layui-form" action="">-->
+					<!--<div class="layui-form-item">-->
+						<!--<div class="layui-inline">-->
+							<!--<div class="layui-input-inline">-->
+								<!--<input type="text" class="layui-input" placeholder="아이디">-->
+							<!--</div>-->
+						<!--</div>-->
+						<!--<button class="layui-btn">确认</button>-->
+					<!--</div>-->
+				<!--</form>-->
+			</div>
+		</div>
+		<table class="layui-hide" id="emailIndexTable" lay-filter="emailIndexTable"></table>
+	</div>
+</div>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#emailIndexTable'
+            ,defaultToolbar:[]
+            ,page: {
+                layout: [ 'prev', 'page', 'next', 'skip', 'count'] //自定义分页布局
+            }
+            ,height:394
+            ,response:{
+                statusName: 'code'
+                ,statusCode: 1
+            }
+            ,url:'/shop/logList'
+            ,cellMinWidth: 80
+            ,limit: 8
+            ,cols: [[
+                {field:'LAY_INDEX', width:50, title: 'No'
+                    ,templet: function(d){
+                        return d.LAY_INDEX;
+                    }
+                }
+                ,{field:'note',  title: '购买物品'}
+                ,{field:'', title: '分类'
+                    ,templet: function(d){
+                        var type;
+                        if(d.change_type == 1){
+                            type = "虚拟形象";
+                        }else{
+                            type = "游戏道具";
+                        }
+                        return type;
+                    }
+                }
+                ,{field:'',  title: '消费金额'
+                    ,templet: function(d){
+                        var type;
+                        switch (d.pay_type){
+							case '0':
+                                type = "金币";
+                                break;
+							case '1':
+                                type = "游戏币";
+                                break;
+							case '2':
+							    type = "积分";
+							    break;
+							default:
+							    type = "";
+                        }
+                        return toThousands(d.change_money)+' '+type
+                    }
+                }
+                ,{field:'time',width:180, title: '时间'}
+            ]]
+        });
+
+        function toThousands(num) {
+            var dataval = parseInt(num);
+            var data2 = dataval.toFixed(2).replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g,'$&,');
+            return  data2;
+        }
+    });
+</script>
+
+{include file="public/userFoot" /}

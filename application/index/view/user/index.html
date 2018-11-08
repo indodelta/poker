@@ -1,0 +1,151 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+	<div class="userAlertContainer">
+
+		<div class="userAlertInfo">
+			<div class="userTopInfo">
+				<div class="userTopLeft">
+					<div class="userTopLeftTop">
+						<ul class="userInfo">
+							<li class="alertUserName">灰太郎大人(yu1005)
+							</li>
+							<li class="alertUserName">账户余额(游戏币)</li>
+							<li class="alertUserMoney">876,000,000,000</li>
+						</ul>
+						<div class="headPortrait">
+							<img src="/static/index/img/people/4.png">
+						</div>
+					</div>
+					<div class="userTopLeftBottom">
+						<div class="userMoneyTop">
+							<div class="userDeposit">
+								存款:9,876,543,210
+							</div>
+							<div class="userIntegral">
+								9,876,543,210积分
+							</div>
+						</div>
+						<div class="userMoneyBottom">
+							<div class="goldCoin">金币:78,900,011,290</div>
+							<div class="alertUserLv">
+								<span>Lv2:</span>
+								<div class="layui-progress">
+									<div class="layui-progress-bar layui-bg-orange" lay-percent="30%" style="width: 30%;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="userTopRight">
+					<ul class="userTopRightTop">
+						<li>
+							<div class="serviceBg"></div>
+							<div class="serviceBgFather" onclick="window.location.href='/service/list'">
+								<img src="/static/index/img/cn_10.png">
+							</div>
+						</li>
+						<li>
+							<div class="capitalBg"></div>
+							<div class="capitalBgFather" onclick="window.location.href='/wallet/logList'">
+								<img src="/static/index/img/cn_11.png">
+							</div>
+						</li>
+						<li>
+							<div class="gameInfoBg"></div>
+							<div class="gameInfoBgFather" onclick="window.location.href='/user/gameIndex'">
+								<img src="/static/index/img/cn_12.png">
+							</div>
+						</li>
+						<li>
+							<div class="gameShopMallBg"></div>
+							<div class="gameShopMallBgFather" onclick="window.location.href='/user/vault'">
+								<img src="/static/index/img/operation/vault.png">
+							</div>
+						</li>
+					</ul>
+					<ul class="userTopRightName">
+						<li>客服中心</li>
+						<li>资金管理</li>
+						<li>游戏信息</li>
+						<li>我的金库</li>
+					</ul>
+					<img src="/static/index/img/step.png">
+				</div>
+			</div>
+			<div class="infoAlertBg">
+				<div class="infoAlertBnak">
+						<img src="/static/index/img/bank.png"  onclick="window.location.href='/user/bankList'">
+						<div><a onclick="window.location.href='/user/bankList'">银行卡管理</a></div>
+				</div>
+				<div class="userCenterInfo">
+					<ul class="userCenterInfoDate">
+						<li>
+							<span>{:substr(session('user.login_time'),0,10)}</span><br>
+							{:substr(session('user.login_time'),11)}
+						</li>
+						<li id="ip">{:session("user.login_ip")}</li>
+						<li id="country"></li>
+						<li id="city"></li>
+					</ul>
+					<div style="text-align:center">
+						<img src="/static/index/img/yellowLoad.png">
+					</div>
+					<ul class="userCenterInfoType">
+						<li>上次登录时间</li>
+						<li>上次登录IP</li>
+						<li>上次登录国家</li>
+						<li>上次登录省份</li>
+					</ul>
+				</div>
+			</div>
+			<div class="userBottomInfo">
+				<div class="userBottomLeft">
+					<ul class="userBottomLeftType">
+						<li class="userCenterFreeCash">
+							<span>3/3</span>
+							<span>领取救济金</span>
+						</li>
+						<li class="userCenterAllCash">
+							<span>0.00</span>
+							<span>总充值金额</span>
+						</li>
+						<li class="userCenterAllExchange">
+							<span>0.00</span>
+							<span>总体现金额</span>
+						</li>
+						<li onclick="window.location.href='/service/list'">
+							<span>常见问题</span>
+						</li>
+					</ul>
+				</div>
+				<div class="userBottomRight">
+					<div class="userBottomRightNtcTilte">
+						<span>公告列表</span>
+						<a href='/bulletin/list'>更多</a>
+					</div>
+					<table>
+						<tbody>
+							{volist name="bulletin" id="bList"}
+							<tr>
+								<td  width="70">[ {$bList['type']} ]</td>
+								<td><a href="/bulletin/detail/{$bList['id']}">{$bList['title']}</a></td>
+								{if substr($bList['time'],0,10) eq date('Y-m-d',time())}
+								<td width="120">{:substr($bList['time'],11,5)}</td>
+								{else/}
+								<td width="120">{:substr($bList['time'],0,10)}</td>
+								{/if}
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$.get('http://ip-api.com/json/208.80.152.201',function () {
+
+    })
+</script>
+{include file="public/userFoot" /}

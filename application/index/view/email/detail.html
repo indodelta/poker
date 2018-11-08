@@ -1,0 +1,56 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+
+	<div class="memCenterRightContent">
+		<table class="defaultTable">
+			<thead>
+				<tr>
+					<th>标题</th>
+					<th>{$email['title']}</th>
+					<th>发布人</th>
+					<th>{$email['nickname']|default="系统"}</th>
+					<th>日期</th>
+					<th>{$email['time']}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="6">
+						<div class="viewContainer">{$email['content']}</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="viewBottomBtn">
+			<a href="/email/index" class="layui-btn layui-btn-primary">返回</a>
+			<a href="javascript:void(0);" class="layui-btn layui-btn-danger deleteEmail">删除</a>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).on("click",".deleteEmail",function () {
+        var load = layer.load(1, { shade: [0.01, '#fff'] });
+        $.ajax({
+            type: "delete",//传值类型
+            url: "email",//路径
+            data: { id:"{:input('param.id')}"},//要传的值，和键名
+            dataType: "json",
+            success: function (data) {
+                layer.close(load);
+                if(data.code === 1){
+					$(".deleteEmail").removeClass('deleteEmail');
+					layer.msg('操作成功！',{time:1500},function () {
+						history.back(-1);
+                    })
+				}else{
+                    layer.msg('操作失败！')
+				}
+            },
+            error: function () {
+                layer.close(load);
+                layer.msg('网络错误！')
+            }
+        })
+    })
+</script>
+{include file="public/userFoot" /}

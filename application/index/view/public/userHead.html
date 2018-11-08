@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="/static/public/layui/css/layui.css" rel="stylesheet" type="text/css" />
+	<link href="/static/index/css/default.css" rel="stylesheet" type="text/css" />
+	<script src="/static/public/js/jquery-2.1.4.min.js"></script>
+	<script src="/static/public/layui/layui.all.js"></script>
+	<script src="/static/index/js/default.js"></script>
+</head>
+
+<body>
+	<div class="memberCneter">
+		<div class="memberCenterTitle">
+			<span>会员中心/Member Center</span>
+			<span>GMT+0800 2018-10-11 02:29:48</span>
+		</div>
+		<div class="memberCenterContent">
+			<div class="memberCenterLeft">
+				<!-- <ul>
+			<li class="active">
+				<a>
+					<div><img src="/static/index/img/operation/cn_1a.png"></div>
+					<div>会员专区</div>
+				</a>
+			</li>
+			<li>
+				<a href="/wallet">
+					<div><img src="/static/index/img/operation/cn_2a.png"></div>
+					<div>充值</div>
+				</a>
+			</li>
+			<li>
+				<a href="/exchange/indexView">
+					<div><img src="/static/index/img/operation/cn_3a.png"></div>
+					<div>提现</div>
+				</a>
+			</li>
+			<li>
+				<a href="/wallet/recharge">
+					<div><img src="/static/index/img/operation/cn_4a.png"></div>
+					<div>充值记录</div>
+				</a>
+			</li>
+			<li>
+				<a href="/wallet/recharge">
+					<div><img src="/static/index/img/operation/cn_5a.png"></div>
+					<div>提现记录</div>
+				</a>
+			</li>
+			<li>
+				<a href="/user/bankList">
+					<div><img src="/static/index/img/operation/cn_6a.png"></div>
+					<div>会员银行卡管理</div>
+				</a>
+			</li>
+			<li>
+				<a>
+					<div><img src="/static/index/img/operation/cn_7a.png"></div>
+					<div>修改取款密码</div>
+				</a>
+			</li>
+			<li>
+				<a>
+					<div><img src="/static/index/img/operation/cn_8a.png"></div>
+					<div>修改登录密码</div>
+				</a>
+			</li>
+		</ul> -->
+				<ul>
+					<li {if $path eq "user/index"} class="active" {/if}>
+						<a  href="/user/index">
+							<div><img src="/static/index/img/operation/cn_1a.png"></div>
+							<div>会员信息</div>
+						</a>
+					</li>
+					<li {if strstr($path,"shop")} class="active" {/if}>
+						<a href="/shop/index">
+							<div><img src="/static/index/img/operation/shopmall.png"></div>
+							<div>商城</div>
+						</a>
+					</li>
+					<li {if $path eq "user/gameIndex"} class="active" {/if}>
+						<a href="/user/gameIndex">
+							<div><img src="/static/index/img/operation/gameimg.png"></div>
+							<div>游戏信息</div>
+						</a>
+					</li>
+					<!-- <li>
+						<a>
+							<div><img src="/static/index/img/operation/peopleimg.png"></div>
+							<div>我的虚拟形象</div>
+						</a>
+					</li> -->
+					<li {if strstr($path,"wallet")} class="active" {/if}>
+						<a href="/wallet">
+							<div><img src="/static/index/img/operation/cash.png"></div>
+							<div>充值</div>
+						</a>
+					</li>
+					<li {if ($path eq "user/myProp") or ($path eq "user/userImage")} class="active" {/if}>
+						<a href="/user/myProp">
+							<div><img src="/static/index/img/operation/item.png"></div>
+							<div>我的道具</div>
+						</a>
+					</li>
+					<li {if ($path eq "email/index") or (strstr($path,"email/detail"))} class="active" {/if}>
+						<a href="/email/index">
+							<div><img src="/static/index/img/operation/webEmail.png"></div>
+							<div>站内短信</div>
+						</a>
+					</li>
+					<li {if $path eq "user/friend"} class="active" {/if}>
+						<a href="/user/friend">
+							<div><img src="/static/index/img/operation/friend.png"></div>
+							<div>好友信息</div>
+						</a>
+					</li>
+					<!-- <li>
+						<a>
+							<div><img src="/static/index/img/operation/cn_7a.png"></div>
+							<div>取款密码</div>
+						</a>
+					</li> -->
+					<li {if ($path eq "user/changePassword/login") or ($path eq "user/changePassword/exchange")} class="active" {/if}>
+						<a href="/user/changePassword/login">
+							<div><img src="/static/index/img/operation/pwd.png"></div>
+							<div>密码管理</div>
+						</a>
+					</li>
+				</ul>
+			</div>

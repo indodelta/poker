@@ -4,8 +4,8 @@
  */
 namespace app\index\controller;
 
+use think\Cache;
 use think\Db;
-
 class Login
 {
     public function login()
@@ -14,9 +14,30 @@ class Login
     }
     //登录
     public function loginPost(){
+        header("Access-Control-Allow-Origin: *");
         $user = input("post.");
+
+
+
+
+
+
+
+
+
+        $user['account'] = 1;
+        $user['password'] = 1;
+
+
+
+
+
+
+
+
+
         $user['password'] = md5($user['password']);
-        $userDate = Db::table("user")->field('id,account,password,login_number,login_status')->where($user)->find();
+        $userDate = Db::table("user")->field('id,account,password,money_password,login_token,login_ip,login_time,login_number,login_status')->where($user)->find();
         if($userDate){
             $update['login_ip'] = $_SERVER["REMOTE_ADDR"];
             $update['login_time'] = date("Y-m-d H:i:s",time());
@@ -24,7 +45,11 @@ class Login
             if($userDate['login_status'] != 2){
                 $update['login_status'] = 1;
             }
-            $update['login_token'] = md5($userDate['account'].$userDate['password'].$update['login_time'].$update['login_ip']);
+            $redis = Cache::getHandler();
+            if($redis->exist("game:token:".$userDate['account'])===1){
+                //如果有Token在有效期 删除
+                $redis->del("game:token:".$userDate['account']);
+            }
             $updateSql = Db::table("user")->where('id',$userDate['id'])->update($update);
             if($updateSql){
                 unset($userDate['login_status']);
@@ -32,6 +57,11 @@ class Login
                 session('user',$userDate);
                 //session过期时间3600
                 session('user.time',time()+3600);
+                $token['account'] = $userDate['account'];
+                $token['password'] = $userDate['password'];
+                $token['login_time'] = $update['login_time'];
+                $token['login_ip'] = $update['login_ip'];
+                session('userToken',$token);
                 $return['code'] = 1;
             }else{
                 $return['code'] = 0;
@@ -66,8 +96,13 @@ class Login
         Db::table('user_login_log')->insert($log);
         echo json_encode($return);
     }
+    //注册页面
     public function register(){
-
+        return view();
+    }
+    //服务条款
+    public function terms(){
+        return view();
     }
     //注册
     public function registerPost(){
@@ -113,5 +148,14 @@ class Login
         }
         echo json_encode($return);
     }
-
+    public function loginOut(){
+        session('user',null);
+        session('userToken',null);
+        if(!session('user')){
+            $return['code'] = 1;
+        }else{
+            $return['code'] = 0;
+        }
+        echo json_encode($return);
+    }
 }

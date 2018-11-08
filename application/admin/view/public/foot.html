@@ -1,0 +1,30 @@
+</div>
+<script>
+    layui.use('layer', function() {
+        var layer = layui.layer;
+        $('.loginOut').click(function () {
+            var load = layer.load(1, { shade: [0.01, '#fff'] });
+            $.ajax({
+                type: 'delete',//传值类型
+                url: '{:url("Admin/Login/loginOut")}',//路径
+                dataType: "json",
+                success: function (data) {
+                    layer.close(load);
+                    if(data.code === 1){
+                        layer.msg('退出成功！',{time:1500},function () {
+                            location.href = "{:url('/Admin/login')}"
+                        })
+                    }else{
+                        layer.msg('操作失败！')
+                    }
+                },
+                error: function () {
+                    layer.close(load);
+                    layer.msg('网络错误！')
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>

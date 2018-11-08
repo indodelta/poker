@@ -1,0 +1,108 @@
+{include file="public/head" /}
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>公告列表</legend>
+        </fieldset>
+        <div class="demoTable">
+            <form class="layui-form">
+                <div class="layui-inline">
+                    <input class="layui-input" name="title" placeholder="请输入标题">
+                </div>
+                <div class="layui-input-inline">
+                    <select name="type" id="selectType">
+                        <option value="">请选择分类</option>
+                        <option value="公告">公告</option>
+                        <option value="活动">活动</option>
+                    </select>
+                </div>
+                <button class="layui-btn" data-type="reload" id="select" type="button">搜索</button>
+                <a href="{:url('Admin/bulletin/add')}" style="float:right" class="layui-btn">发布</a>
+            </form>
+        </div>
+        <table class="layui-hide" id="bulletinList"></table>
+    </div>
+</div>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var tableIns = table.render({
+            elem: '#bulletinList'
+            , url: '{:url("Admin/bulletin/listApi")}'
+            , page: true //开启分页
+            , response:{
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                ,statusCode: 1 //规定成功的状态码，默认：0
+            }
+            , cols: [[
+                {field:'LAY_INDEX', width:50, title: 'No'
+                    ,templet: function(d){
+                        return d.LAY_INDEX;
+                    }
+                },{ field: 'type', title: '分类' }
+                , { field: 'title', title: '标题'}
+                , { field: 'time', title: '时间' }
+                , {field:'', title: '操作'
+                    ,templet: function(d){
+                        return "<button class='layui-btn layui-btn-primary layui-btn-sm'>修改</button><button class='layui-btn layui-btn-danger layui-btn-sm delete' data-id='"+d.id+"'>删除</button>"
+                    }
+                }
+            ]]
+        });
+        $(document).on('click','.delete',function () {
+            var id = $(this).attr('data-id');
+            var load = layer.load(1, { shade: [0.01, '#fff'] });
+            $.ajax({
+                type: "DELETE",//传值类型
+                url: "{:url('Admin/Bulletin/delete')}",//路径
+                data: {id:id},
+                dataType: "json",
+                success: function (data) {
+                    layer.close(load);
+                    if (data.code == 1) {
+                        $('.layui-laypage-btn').click()
+                        layer.msg("删除成功！")
+                    }
+                    if(data.code ==0){
+                        layer.msg("提示:添加失败！")
+                    }
+                    if (data.code == 500) {
+                        layer.msg("提示:服务器错误")
+                    }
+                    if (data.code == 404) {
+                        layer.msg("提示:缺少参数")
+                    }
+                    if (data.code == -3) {
+                        layer.msg("提示:账号或密码错误")
+                    }
+                },
+                error: function () {
+                    layer.close(load);
+                    layer.msg("提示:网络错误")
+                }
+            })
+        });
+        $("#select").click(function () {
+            frast = $('form').serialize().split('&');
+            var arr = [];
+            for (var i in frast) {
+                a = frast[i].split('=');
+                if (a[1] == '') {
+                    arr[a[0]] = '';
+                } else if (a[0] == "type") {
+                    arr[a[0]] = $("#selectType").val();
+                } else {
+                    arr[a[0]] = a[1];
+                }
+            }
+            tableIns.reload({
+                where: arr
+                ,page: {
+                    curr: 1
+                }
+            });
+        })
+    });
+</script>
+{include file="public/foot" /}

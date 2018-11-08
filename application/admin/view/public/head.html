@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>poker</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/static/public/layui/css/layui.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/css/default.css" rel="stylesheet" type="text/css" />
+    <script src="/static/public/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/public/layui/layui.js"></script>
+    <script src="/static/admin/js/default.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Poker后台管理</div>
+        <ul class="layui-nav layui-layout-right">
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="javascript:;">-->
+                    <!--<img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">-->
+                    <!--贤心-->
+                    <!--<span class="layui-nav-more"></span></a>-->
+                <!--<dl class="layui-nav-child">-->
+                    <!--<dd><a href="">基本资料</a></dd>-->
+                    <!--<dd><a href="">安全设置</a></dd>-->
+                <!--</dl>-->
+            <!--</li>-->
+            <li class="layui-nav-item loginOut"><a href="javascript:void(0);">退出</a></li>
+            <span class="layui-nav-bar"></span>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">公告管理<span class="layui-nav-more"></span></a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{:url('Admin/Bulletin/listView')}">公告列表</a></dd>
+                        <dd><a href="{:url('Admin/Bulletin/add')}">公告发布</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">用户管理<span class="layui-nav-more"></span></a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/Member/memberList.asp">用户列表</a></dd>
+                        <!-- <dd><a href="/Notice/ntcWrite.asp">公告发布</a></dd> -->
+                    </dl>
+                </li>
+
+
+                <li class="layui-nav-item"><a href="/Service/serviceList.asp">客服中心</a></li>
+
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">商品管理<span class="layui-nav-more"></span></a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{:url('Admin/shop/listView')}">商品列表</a></dd>
+                        <dd><a href="{:url('Admin/shop/add')}">商品上传</a></dd>
+                    </dl>
+                </li>
+                <span class="layui-nav-bar"></span>
+            </ul>
+        </div>
+    </div>

@@ -1,0 +1,53 @@
+{include file="public/userHead" /}
+<div class="memberCenterRight">
+	<div class="bankAddView">
+		<form>
+			<div class="bankAddForm">
+				<div>
+					<span><font>*</font>银行名称</span>
+					<input type="text" name="bank_name">
+					<span class="bankTip"><font>*</font>请输入银行名称</span>
+				</div>
+				<div>
+						<span><font>*</font>持卡人姓名</span>
+						<input type="text" name="bank_account">
+						<span class="bankTip"><font>*</font>请输入持卡人姓名</span>
+				</div>
+				<div>
+						<span><font>*</font>银行卡号</span>
+						<input type="text" name="bank_number">
+						<span class="bankTip"><font>*</font>请输入银行卡号</span>
+				</div>
+				<div class="bankAddBtn">
+					<button type="button" id="submit">确认绑定</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	$('#submit').click(function () {
+        var load = layer.load(1, { shade: [0.01, '#fff'] });
+        $.ajax({
+            type: 'post',//传值类型
+            url: '/user/bankAddApi',//路径
+            data: $('form').serialize(),//要传的值，和键名
+            dataType: "json",
+            success: function (data) {
+                layer.close(load);
+                if(data.code === 1){
+                    layer.msg('操作成功！',{time:1500},function () {
+						location.href = "/user/bankList";
+                    })
+                }else{
+                    layer.msg('操作失败！')
+                }
+            },
+            error: function () {
+                layer.close(load);
+                layer.msg('网络错误！')
+            }
+        });
+    })
+</script>
+{include file="public/userFoot" /}
